@@ -14,7 +14,6 @@ export default function QuizPage() {
   const [quizAnswers, setQuizAnswers] = useState<Record<string, any>>({})
   const [selectedGoals, setSelectedGoals] = useState<string[]>([]) // Moved useState here
   const [selectedValues, setSelectedValues] = useState<string[]>([])
-  // Add new state for selected emotion after the existing state declarations
   const [selectedEmotion, setSelectedEmotion] = useState<string | null>(null)
   const [birthMonth, setBirthMonth] = useState<string>("")
   const [birthDay, setBirthDay] = useState<string>("")
@@ -22,7 +21,6 @@ export default function QuizPage() {
   const [birthHour, setBirthHour] = useState<string>("")
   const [birthMinute, setBirthMinute] = useState<string>("")
   const [birthPeriod, setBirthPeriod] = useState<string>("")
-  // Add new state for birth location after the existing state declarations
   const [birthLocation, setBirthLocation] = useState<string>("")
   const [progress, setProgress] = useState(0)
   const [selectedGender, setSelectedGender] = useState<string>("")
@@ -33,17 +31,111 @@ export default function QuizPage() {
   const [partnerBirthHour, setPartnerBirthHour] = useState<string>("")
   const [partnerBirthMinute, setPartnerBirthMinute] = useState<string>("")
   const [partnerBirthPeriod, setPartnerBirthPeriod] = useState<string>("")
-  // Add new state for partner birth location after the existing state declarations
   const [partnerBirthLocation, setPartnerBirthLocation] = useState<string>("")
-  // Add new state for partner logic/emotion preference after the existing state declarations
   const [partnerLogicEmotion, setPartnerLogicEmotion] = useState<string>("")
-  // Add new state for love language after the existing state declarations
   const [loveLanguage, setLoveLanguage] = useState<string>("")
-  // Add new state for compatibility analysis progress after the existing state declarations
   const [compatibilityProgress, setCompatibilityProgress] = useState(0)
+  // Add new state for additional goals after the existing state declarations
+  const [additionalGoals, setAdditionalGoals] = useState<string[]>([])
+  // Add new state for curiosity agreement after the existing state declarations:
+  const [curiosityAgreement, setCuriosityAgreement] = useState<string>("")
+  // Add new state for life event dates after the existing state declarations:
+  const [lifeEventDates, setLifeEventDates] = useState<string[]>([])
 
-  const totalSteps = 29
+  const totalSteps = 28
   const router = useRouter()
+
+  // Add the additional goals options array after the existing arrays
+  const additionalGoalsOptions = [
+    {
+      id: "stronger-friendships",
+      label: "Build stronger friendships",
+      icon: "🤝",
+    },
+    {
+      id: "understand-myself",
+      label: "Understand myself better",
+      icon: "🔍",
+    },
+    {
+      id: "life-path-purpose",
+      label: "Discover my life path & purpose",
+      icon: "🗺️",
+    },
+    {
+      id: "grow-spiritually",
+      label: "Grow spiritually",
+      icon: "🧘",
+    },
+    {
+      id: "find-happiness",
+      label: "Find happiness",
+      icon: "✨",
+    },
+    {
+      id: "improve-finances",
+      label: "Improve finances",
+      icon: "💰",
+    },
+    {
+      id: "successful-career",
+      label: "Have a successful career",
+      icon: "📈",
+    },
+  ]
+
+  // Add the curiosity agreement options array after the existing arrays:
+  const curiosityOptions = [
+    {
+      id: "strongly-agree",
+      label: "Strongly agree",
+      icon: "✅",
+    },
+    {
+      id: "somewhat-agree",
+      label: "Somewhat agree",
+      icon: "❓",
+    },
+    {
+      id: "disagree",
+      label: "Disagree",
+      icon: "❌",
+    },
+  ]
+
+  // Add the life event dates options array after the existing arrays:
+  const lifeEventOptions = [
+    {
+      id: "conceive-child",
+      label: "When is the best time to conceive a child",
+      icon: "👶",
+    },
+    {
+      id: "resolve-conflicts",
+      label: "Best dates for resolving conflicts",
+      icon: "💬",
+    },
+    {
+      id: "career-changes",
+      label: "Key dates for career changes",
+      icon: "💼",
+    },
+    {
+      id: "meet-perfect-match",
+      label: "When will I meet my perfect match",
+      icon: "💑",
+    },
+    {
+      id: "start-relationship",
+      label: "Best time to start a new relationship",
+      icon: "❤️",
+    },
+    {
+      id: "other",
+      label: "Other",
+      icon: "🤔",
+    },
+  ]
 
   // Update the useEffect to handle both step 13 and step 21 loading animations
   useEffect(() => {
@@ -119,6 +211,23 @@ export default function QuizPage() {
     if (selectedGoals.length > 0) {
       setQuizAnswers((prev) => ({ ...prev, relationshipGoals: selectedGoals }))
       setCurrentStep(6)
+    }
+  }
+
+  const handleAdditionalGoalToggle = (goalId: string) => {
+    setAdditionalGoals((prev) => {
+      if (prev.includes(goalId)) {
+        return prev.filter((id) => id !== goalId)
+      } else {
+        return [...prev, goalId]
+      }
+    })
+  }
+
+  const handleAdditionalGoalsContinue = () => {
+    if (additionalGoals.length > 0) {
+      setQuizAnswers((prev) => ({ ...prev, additionalGoals: additionalGoals }))
+      setCurrentStep(24)
     }
   }
 
@@ -271,7 +380,6 @@ export default function QuizPage() {
     },
   ]
 
-  // Add the emotion options array after the existing arrays
   const loveLifeEmotions = [
     {
       id: "loved",
@@ -341,7 +449,6 @@ export default function QuizPage() {
   const minutes = Array.from({ length: 60 }, (_, i) => i.toString().padStart(2, "0"))
   const periods = ["AM", "PM"]
 
-  // Function to determine zodiac sign based on birth date
   const getZodiacSign = (month: string, day: string) => {
     const monthNum = months.indexOf(month) + 1
     const dayNum = Number.parseInt(day)
@@ -362,7 +469,6 @@ export default function QuizPage() {
     return "sagittarius" // fallback
   }
 
-  // Zodiac sign data
   const zodiacSigns = {
     aries: {
       name: "Aries",
@@ -456,7 +562,6 @@ export default function QuizPage() {
     setCurrentStep(12)
   }
 
-  // Add new handler function after the existing handlers
   const handleBirthLocationContinue = () => {
     if (birthLocation.trim()) {
       setQuizAnswers((prev) => ({
@@ -511,7 +616,6 @@ export default function QuizPage() {
     setCurrentStep(18)
   }
 
-  // Add new handler function after the existing handlers
   const handlePartnerBirthLocationContinue = () => {
     if (partnerBirthLocation.trim()) {
       setQuizAnswers((prev) => ({
@@ -530,7 +634,6 @@ export default function QuizPage() {
     setCurrentStep(19)
   }
 
-  // Add new handler function after the existing handlers
   const handlePartnerLogicEmotionSelect = (choice: string) => {
     setPartnerLogicEmotion(choice)
     setQuizAnswers((prev) => ({ ...prev, partnerLogicEmotion: choice }))
@@ -539,13 +642,39 @@ export default function QuizPage() {
     }, 300)
   }
 
-  // Add new handler function after the existing handlers
   const handleLoveLanguageSelect = (language: string) => {
     setLoveLanguage(language)
     setQuizAnswers((prev) => ({ ...prev, loveLanguage: language }))
     setTimeout(() => {
       setCurrentStep(21)
     }, 300)
+  }
+
+  // Add handler function after the existing handlers:
+  const handleCuriositySelect = (agreement: string) => {
+    setCuriosityAgreement(agreement)
+    setQuizAnswers((prev) => ({ ...prev, curiosityAgreement: agreement }))
+    setTimeout(() => {
+      setCurrentStep(25)
+    }, 300)
+  }
+
+  // Add handler functions after the existing handlers:
+  const handleLifeEventToggle = (eventId: string) => {
+    setLifeEventDates((prev) => {
+      if (prev.includes(eventId)) {
+        return prev.filter((id) => id !== eventId)
+      } else {
+        return [...prev, eventId]
+      }
+    })
+  }
+
+  const handleLifeEventsContinue = () => {
+    if (lifeEventDates.length > 0) {
+      setQuizAnswers((prev) => ({ ...prev, lifeEventDates: lifeEventDates }))
+      setCurrentStep(26)
+    }
   }
 
   // Step 1: Gender Selection
@@ -793,6 +922,11 @@ export default function QuizPage() {
   // Step 4: Relationship Status
   if (currentStep === 4) {
     const handleRelationshipSelect = (status: string) => {
+      setQuizAnswers((prev) => ({ ...prev, relationshipStatus: status }))
+      // Avançar para próxima etapa após um pequeno delay
+      setTimeout(() => {
+        setCurrentStep(5)
+      }, 300)
       setQuizAnswers((prev) => ({ ...prev, relationshipStatus: status }))
       // Avançar para próxima etapa após um pequeno delay
       setTimeout(() => {
@@ -2644,12 +2778,283 @@ export default function QuizPage() {
 
             {/* Continue button */}
             <Button
-              onClick={handleContinue}
+              onClick={() => setCurrentStep(23)}
               size="lg"
               className="w-full max-w-sm px-12 py-4 bg-yellow-400 hover:bg-yellow-500 text-black font-semibold text-lg rounded-full transition-all duration-200 hover:scale-105"
             >
               Continue
             </Button>
+          </div>
+        </main>
+      </div>
+    )
+  }
+
+  // Add Step 23: Additional Goals (Multiple Selection) after Step 22
+  if (currentStep === 23) {
+    return (
+      <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+        {/* Header */}
+        <header className="sticky top-0 bg-white/80 backdrop-blur-sm border-b border-gray-100 z-10">
+          <div className="container mx-auto px-4 py-4">
+            <div className="flex items-center justify-between">
+              {/* Back button */}
+              <Button variant="ghost" size="sm" onClick={handleBack} className="p-2 hover:bg-gray-100 rounded-full">
+                <ArrowLeft className="h-5 w-5 text-gray-600" />
+              </Button>
+
+              {/* Logo */}
+              <div className="flex items-center gap-2">
+                <div className="w-6 h-6 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full"></div>
+                <span className="text-xl font-semibold text-gray-800">MOONGRADE</span>
+              </div>
+
+              {/* Progress indicator */}
+              <div className="text-sm text-gray-600 font-medium">
+                {currentStep}/{totalSteps}
+              </div>
+            </div>
+
+            {/* Progress bar */}
+            <div className="mt-4">
+              <Progress value={progressPercentage} className="h-2" />
+            </div>
+          </div>
+        </header>
+
+        {/* Main content */}
+        <main className="container mx-auto px-4 py-12">
+          <div className="max-w-2xl mx-auto">
+            {/* Question */}
+            <div className="text-center mb-12">
+              <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                In addition to your relationship goals, what other goals do you want to achieve?
+              </h1>
+              <p className="text-gray-600">Choose all that apply</p>
+            </div>
+
+            {/* Answer options */}
+            <div className="space-y-4 mb-8">
+              {additionalGoalsOptions.map((goal) => (
+                <Card
+                  key={goal.id}
+                  className={`p-6 cursor-pointer transition-all duration-200 hover:shadow-md hover:scale-[1.02] border-2 ${
+                    additionalGoals.includes(goal.id)
+                      ? "border-purple-400 bg-purple-50"
+                      : "border-gray-200 hover:border-gray-300"
+                  }`}
+                  onClick={() => handleAdditionalGoalToggle(goal.id)}
+                >
+                  <div className="flex items-center gap-4">
+                    <div className="text-2xl">{goal.icon}</div>
+                    <div className="flex-1">
+                      <h3 className="text-lg font-semibold text-gray-900">{goal.label}</h3>
+                    </div>
+                    <div
+                      className={`w-5 h-5 rounded border-2 transition-colors ${
+                        additionalGoals.includes(goal.id) ? "border-purple-400 bg-purple-400" : "border-gray-300"
+                      }`}
+                    >
+                      {additionalGoals.includes(goal.id) && (
+                        <div className="w-full h-full flex items-center justify-center">
+                          <div className="w-2 h-2 bg-white rounded-sm"></div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </Card>
+              ))}
+            </div>
+
+            {/* Continue button */}
+            <div className="text-center">
+              <Button
+                onClick={handleAdditionalGoalsContinue}
+                disabled={additionalGoals.length === 0}
+                size="lg"
+                className="px-12 py-4 bg-gray-400 hover:bg-gray-500 disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-semibold text-lg rounded-full transition-all duration-200"
+              >
+                Continue
+              </Button>
+            </div>
+          </div>
+        </main>
+      </div>
+    )
+  }
+
+  // Step 24 after Step 23 and before the fallback return:
+  // Step 24: Curiosity Agreement
+  if (currentStep === 24) {
+    return (
+      <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+        {/* Header */}
+        <header className="sticky top-0 bg-white/80 backdrop-blur-sm border-b border-gray-100 z-10">
+          <div className="container mx-auto px-4 py-4">
+            <div className="flex items-center justify-between">
+              {/* Back button */}
+              <Button variant="ghost" size="sm" onClick={handleBack} className="p-2 hover:bg-gray-100 rounded-full">
+                <ArrowLeft className="h-5 w-5 text-gray-600" />
+              </Button>
+
+              {/* Logo */}
+              <div className="flex items-center gap-2">
+                <div className="w-6 h-6 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full"></div>
+                <span className="text-xl font-semibold text-gray-800">MOONGRADE</span>
+              </div>
+
+              {/* Progress indicator */}
+              <div className="text-sm text-gray-600 font-medium">
+                {currentStep}/{totalSteps}
+              </div>
+            </div>
+
+            {/* Progress bar */}
+            <div className="mt-4">
+              <Progress value={progressPercentage} className="h-2" />
+            </div>
+          </div>
+        </header>
+
+        {/* Main content */}
+        <main className="container mx-auto px-4 py-12">
+          <div className="max-w-2xl mx-auto">
+            {/* Question */}
+            <div className="text-center mb-12">
+              <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-8">
+                Do you agree with the following statement?
+              </h1>
+
+              {/* Statement */}
+              <div className="mb-12">
+                <p className="text-xl md:text-2xl text-gray-800 leading-relaxed font-medium">
+                  "I have a curious mind and I always want to learn and grow."
+                </p>
+              </div>
+            </div>
+
+            {/* Answer options */}
+            <div className="space-y-4">
+              {curiosityOptions.map((option) => (
+                <Card
+                  key={option.id}
+                  className={`p-6 cursor-pointer transition-all duration-200 hover:shadow-md hover:scale-[1.02] border-2 ${
+                    curiosityAgreement === option.id
+                      ? "border-purple-400 bg-purple-50"
+                      : "border-gray-200 hover:border-gray-300"
+                  }`}
+                  onClick={() => handleCuriositySelect(option.id)}
+                >
+                  <div className="flex items-center gap-4">
+                    <div className="text-2xl">{option.icon}</div>
+                    <div className="flex-1">
+                      <h3 className="text-lg font-semibold text-gray-900">{option.label}</h3>
+                    </div>
+                    <div
+                      className={`w-5 h-5 rounded-full border-2 transition-colors ${
+                        curiosityAgreement === option.id ? "border-purple-400 bg-purple-400" : "border-gray-300"
+                      }`}
+                    >
+                      {curiosityAgreement === option.id && (
+                        <div className="w-full h-full rounded-full bg-white scale-50"></div>
+                      )}
+                    </div>
+                  </div>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </main>
+      </div>
+    )
+  }
+
+  // Add Step 25: Life Event Dates Selection after Step 24 and before the fallback return:
+  // Step 25: Life Event Dates Selection
+  if (currentStep === 25) {
+    return (
+      <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+        {/* Header */}
+        <header className="sticky top-0 bg-white/80 backdrop-blur-sm border-b border-gray-100 z-10">
+          <div className="container mx-auto px-4 py-4">
+            {/* Back button */}
+            <Button variant="ghost" size="sm" onClick={handleBack} className="p-2 hover:bg-gray-100 rounded-full">
+              <ArrowLeft className="h-5 w-5 text-gray-600" />
+            </Button>
+
+            {/* Logo */}
+            <div className="flex items-center gap-2">
+              <div className="w-6 h-6 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full"></div>
+              <span className="text-xl font-semibold text-gray-800">MOONGRADE</span>
+            </div>
+
+            {/* Progress indicator */}
+            <div className="text-sm text-gray-600 font-medium">
+              {currentStep}/{totalSteps}
+            </div>
+          </div>
+
+          {/* Progress bar */}
+          <div className="mt-4">
+            <Progress value={progressPercentage} className="h-2" />
+          </div>
+        </header>
+
+        {/* Main content */}
+        <main className="container mx-auto px-4 py-12">
+          <div className="max-w-2xl mx-auto">
+            {/* Question */}
+            <div className="text-center mb-12">
+              <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                Which important life event dates would you like to know?
+              </h1>
+              <p className="text-gray-600">Choose all that apply</p>
+            </div>
+
+            {/* Answer options */}
+            <div className="space-y-4 mb-8">
+              {lifeEventOptions.map((event) => (
+                <Card
+                  key={event.id}
+                  className={`p-6 cursor-pointer transition-all duration-200 hover:shadow-md hover:scale-[1.02] border-2 ${
+                    lifeEventDates.includes(event.id)
+                      ? "border-purple-400 bg-purple-50"
+                      : "border-gray-200 hover:border-gray-300"
+                  }`}
+                  onClick={() => handleLifeEventToggle(event.id)}
+                >
+                  <div className="flex items-center gap-4">
+                    <div className="text-2xl">{event.icon}</div>
+                    <div className="flex-1">
+                      <h3 className="text-lg font-semibold text-gray-900">{event.label}</h3>
+                    </div>
+                    <div
+                      className={`w-5 h-5 rounded border-2 transition-colors ${
+                        lifeEventDates.includes(event.id) ? "border-purple-400 bg-purple-400" : "border-gray-300"
+                      }`}
+                    >
+                      {lifeEventDates.includes(event.id) && (
+                        <div className="w-full h-full flex items-center justify-center">
+                          <div className="w-2 h-2 bg-white rounded-sm"></div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </Card>
+              ))}
+            </div>
+
+            {/* Continue button */}
+            <div className="text-center">
+              <Button
+                onClick={handleLifeEventsContinue}
+                disabled={lifeEventDates.length === 0}
+                size="lg"
+                className="px-12 py-4 bg-gray-400 hover:bg-gray-500 disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-semibold text-lg rounded-full transition-all duration-200"
+              >
+                Continue
+              </Button>
+            </div>
           </div>
         </main>
       </div>
