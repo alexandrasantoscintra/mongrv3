@@ -39,8 +39,6 @@ export default function QuizPage() {
   const [additionalGoals, setAdditionalGoals] = useState<string[]>([])
   // Add new state for curiosity agreement after the existing state declarations:
   const [curiosityAgreement, setCuriosityAgreement] = useState<string>("")
-  // Add new state for life event dates after the existing state declarations:
-  const [lifeEventDates, setLifeEventDates] = useState<string[]>([])
 
   const totalSteps = 28
   const router = useRouter()
@@ -100,40 +98,6 @@ export default function QuizPage() {
       id: "disagree",
       label: "Disagree",
       icon: "❌",
-    },
-  ]
-
-  // Add the life event dates options array after the existing arrays:
-  const lifeEventOptions = [
-    {
-      id: "conceive-child",
-      label: "When is the best time to conceive a child",
-      icon: "👶",
-    },
-    {
-      id: "resolve-conflicts",
-      label: "Best dates for resolving conflicts",
-      icon: "💬",
-    },
-    {
-      id: "career-changes",
-      label: "Key dates for career changes",
-      icon: "💼",
-    },
-    {
-      id: "meet-perfect-match",
-      label: "When will I meet my perfect match",
-      icon: "💑",
-    },
-    {
-      id: "start-relationship",
-      label: "Best time to start a new relationship",
-      icon: "❤️",
-    },
-    {
-      id: "other",
-      label: "Other",
-      icon: "🤔",
     },
   ]
 
@@ -657,24 +621,6 @@ export default function QuizPage() {
     setTimeout(() => {
       setCurrentStep(25)
     }, 300)
-  }
-
-  // Add handler functions after the existing handlers:
-  const handleLifeEventToggle = (eventId: string) => {
-    setLifeEventDates((prev) => {
-      if (prev.includes(eventId)) {
-        return prev.filter((id) => id !== eventId)
-      } else {
-        return [...prev, eventId]
-      }
-    })
-  }
-
-  const handleLifeEventsContinue = () => {
-    if (lifeEventDates.length > 0) {
-      setQuizAnswers((prev) => ({ ...prev, lifeEventDates: lifeEventDates }))
-      setCurrentStep(26)
-    }
   }
 
   // Step 1: Gender Selection
@@ -2962,98 +2908,6 @@ export default function QuizPage() {
                   </div>
                 </Card>
               ))}
-            </div>
-          </div>
-        </main>
-      </div>
-    )
-  }
-
-  // Add Step 25: Life Event Dates Selection after Step 24 and before the fallback return:
-  // Step 25: Life Event Dates Selection
-  if (currentStep === 25) {
-    return (
-      <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
-        {/* Header */}
-        <header className="sticky top-0 bg-white/80 backdrop-blur-sm border-b border-gray-100 z-10">
-          <div className="container mx-auto px-4 py-4">
-            {/* Back button */}
-            <Button variant="ghost" size="sm" onClick={handleBack} className="p-2 hover:bg-gray-100 rounded-full">
-              <ArrowLeft className="h-5 w-5 text-gray-600" />
-            </Button>
-
-            {/* Logo */}
-            <div className="flex items-center gap-2">
-              <div className="w-6 h-6 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full"></div>
-              <span className="text-xl font-semibold text-gray-800">MOONGRADE</span>
-            </div>
-
-            {/* Progress indicator */}
-            <div className="text-sm text-gray-600 font-medium">
-              {currentStep}/{totalSteps}
-            </div>
-          </div>
-
-          {/* Progress bar */}
-          <div className="mt-4">
-            <Progress value={progressPercentage} className="h-2" />
-          </div>
-        </header>
-
-        {/* Main content */}
-        <main className="container mx-auto px-4 py-12">
-          <div className="max-w-2xl mx-auto">
-            {/* Question */}
-            <div className="text-center mb-12">
-              <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-                Which important life event dates would you like to know?
-              </h1>
-              <p className="text-gray-600">Choose all that apply</p>
-            </div>
-
-            {/* Answer options */}
-            <div className="space-y-4 mb-8">
-              {lifeEventOptions.map((event) => (
-                <Card
-                  key={event.id}
-                  className={`p-6 cursor-pointer transition-all duration-200 hover:shadow-md hover:scale-[1.02] border-2 ${
-                    lifeEventDates.includes(event.id)
-                      ? "border-purple-400 bg-purple-50"
-                      : "border-gray-200 hover:border-gray-300"
-                  }`}
-                  onClick={() => handleLifeEventToggle(event.id)}
-                >
-                  <div className="flex items-center gap-4">
-                    <div className="text-2xl">{event.icon}</div>
-                    <div className="flex-1">
-                      <h3 className="text-lg font-semibold text-gray-900">{event.label}</h3>
-                    </div>
-                    <div
-                      className={`w-5 h-5 rounded border-2 transition-colors ${
-                        lifeEventDates.includes(event.id) ? "border-purple-400 bg-purple-400" : "border-gray-300"
-                      }`}
-                    >
-                      {lifeEventDates.includes(event.id) && (
-                        <div className="w-full h-full flex items-center justify-center">
-                          <div className="w-2 h-2 bg-white rounded-sm"></div>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                </Card>
-              ))}
-            </div>
-
-            {/* Continue button */}
-            <div className="text-center">
-              <Button
-                onClick={handleLifeEventsContinue}
-                disabled={lifeEventDates.length === 0}
-                size="lg"
-                className="px-12 py-4 bg-gray-400 hover:bg-gray-500 disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-semibold text-lg rounded-full transition-all duration-200"
-              >
-                Continue
-              </Button>
             </div>
           </div>
         </main>
